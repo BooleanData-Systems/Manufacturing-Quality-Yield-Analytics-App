@@ -16,7 +16,7 @@ This Native App provides a comprehensive Manufacturing Quality & Yield dashboard
 ## Configuration Steps
 
 1. **Install the application** from the Snowflake Marketplace.
-2. **Bind table references** — On first launch, the app will prompt you to bind each of the 8 required table references via the Snowsight permissions dialog.
+2. **Grant permissions** — Navigate to the app's Permissions tab in Snowsight. Grant the Cortex database role and bind each of the 8 required table references through the UI.
 3. **Verify data** — Once bound, the dashboard loads automatically. Check that charts populate with your data.
 4. **Explore** — Use the sidebar to filter by Production House, Product, Line, Shift, Year/Month, and Date Range.
 
@@ -29,22 +29,7 @@ This Native App provides a comprehensive Manufacturing Quality & Yield dashboard
 
 ## Required Privileges
 
-The app requests **SELECT** on each bound table. No other privileges are required. All analytics run in-place on your Snowflake warehouse — no data leaves your account.
-
-## Example SQL Commands
-
-```sql
-GRANT USAGE ON DATABASE <YOUR_DB> TO APPLICATION QUALITY_YIELD_ANALYTICS_APP;
-GRANT USAGE ON SCHEMA <YOUR_DB>.<YOUR_SCHEMA> TO APPLICATION QUALITY_YIELD_ANALYTICS_APP;
-GRANT SELECT ON ALL TABLES IN SCHEMA <YOUR_DB>.<YOUR_SCHEMA> TO APPLICATION QUALITY_YIELD_ANALYTICS_APP;
-
-CALL QUALITY_YIELD_ANALYTICS_APP.config.register_single_reference(
-  'FACT_PRODUCTION_TABLE', 'ADD',
-  SYSTEM$REFERENCE('TABLE', '<YOUR_DB>.<SCHEMA>.FACT_PRODUCTION', 'PERSISTENT', 'SELECT')
-);
-```
-
-Repeat for each of the 8 references.
+The app requests the **cortex_user** database role on the SNOWFLAKE database for Cortex AI functions, and **SELECT** on each bound table. All privileges are granted through the Snowsight Permissions tab — no manual SQL is required. All analytics run in-place on your Snowflake warehouse — no data leaves your account.
 
 ## Required Tables
 
